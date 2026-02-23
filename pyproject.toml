@@ -1,0 +1,9 @@
+[project]
+name = "minirack-2020"
+version = "0.1.0"
+description = "3D model and cut list for a 10\" minirack frame (2020 extrusion, Slot 5)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "build123d",
+]
