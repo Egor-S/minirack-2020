@@ -8,7 +8,7 @@ face = profile.faces_intersected_by_axis(bd.Axis.Z)[1]  # facing up
 face.locate(bd.Location(-face.center()))  # move to origin
 
 
-class Profile2020I5(bd.Part):
+class Profile2020I5(bd.BasePartObject):
     """
     Aluminum extrusion 2020 I-Type slot 5 profile.
 
@@ -18,8 +18,10 @@ class Profile2020I5(bd.Part):
     def __init__(
         self,
         length: float,
+        rotation: bd.RotationLike = (0, 0, 0),
+        **kwargs,
     ):
         """Create a 2020 I-Type slot 5 profile with the specified length."""
         with bd.BuildPart() as component:
             bd.extrude(face, length)
-        super().__init__(obj=component.part)
+        super().__init__(part=component.part, rotation=rotation, **kwargs)

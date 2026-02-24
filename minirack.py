@@ -12,34 +12,21 @@ height = 400 * MM
 width = mounts_distance + dim
 depth = 250 * MM + 2 * dim
 
-# %%
-vertical_profile = Profile2020I5(height)
-facade_profile = (
-    Pos(dim / 2, 0, dim / 2) * Rotation(0, 90, 0) * Profile2020I5(width - 2 * dim)
-)
-side_profile = (
-    Pos(0, dim / 2, dim / 2) * Rotation(-90, 0, 0) * Profile2020I5(depth - 2 * dim)
-)
+h = Vector(0, 0, height - dim)
+w = Vector(width - dim, 0, 0)
+d = Vector(0, depth - dim, 0)
 
-assembly = Compound(
-    children=[
-        # vertical posts
-        vertical_profile,
-        Pos(width - dim, 0, 0) * vertical_profile,
-        Pos(0, depth - dim, 0) * vertical_profile,
-        Pos(width - dim, depth - dim, 0) * vertical_profile,
-        # front and back cross beams
-        facade_profile,
-        Pos(0, 0, height - dim) * facade_profile,
-        Pos(0, depth - dim, 0) * facade_profile,
-        Pos(0, depth - dim, height - dim) * facade_profile,
-        # side beams
-        side_profile,
-        Pos(0, 0, height - dim) * side_profile,
-        Pos(width - dim, 0, 0) * side_profile,
-        Pos(width - dim, 0, height - dim) * side_profile,
-    ]
-)
-show(assembly, reset_camera=Camera.RESET)
+# %%
+with BuildPart() as rack:
+    with Locations((0, 0, 0), w, d, w + d):
+        Profile2020I5(height)
+    b = Vector(dim / 2, 0, dim / 2)
+    with Locations(b, h + b, d + b, h + d + b):
+        Profile2020I5(width - 2 * dim, rotation=(0, 90, 0))
+    b = Vector(0, dim / 2, dim / 2)
+    with Locations(b, h + b, w + b, h + w + b):
+        Profile2020I5(depth - 2 * dim, rotation=(-90, 0, 0))
+
+show(rack.part, reset_camera=Camera.RESET)
 
 # %%
