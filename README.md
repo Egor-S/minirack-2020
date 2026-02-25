@@ -48,6 +48,7 @@ Requires Python 3.10+ and [uv](https://github.com/astral-sh/uv).
 uv venv -p 3.12
 uv sync
 source .venv/bin/activate
+python generate.py --height 500 --depth 300
 ```
 
 ### VS Code viewer
